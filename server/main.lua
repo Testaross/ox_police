@@ -62,19 +62,14 @@ RegisterNetEvent('ox_police:setPlayerEscort', function(target, state)
     target:set('isEscorted', state and source, true)
 end)
 
---spikes
-
 RegisterCommand('spikes', function(source)
     local src = source
-
     TriggerClientEvent("spawnSpikes", src)
 end)
 
 RegisterServerEvent("deleteSpikes", function(netid)
-    TriggerClientEvent("delSpikes", -1, netid)
+    TriggerClientEvent("delSpikes", source, netid)
 end)
-
--- Jailing Stuff
 
 AddEventHandler('ox:playerLoaded', function(source, userid, charid) 
     local playerId = Ox.GetPlayer(source)
@@ -85,8 +80,8 @@ AddEventHandler('ox:playerLoaded', function(source, userid, charid)
         Player(source).state:set('sentence', remaining, true)
         TriggerEvent('server:beginSentence', playerId.source , remaining, true )
 	end)
-end)
 
+end)
 
 RegisterServerEvent('server:beginSentence',function(id, sentence, resume)
     if sentence == 0 then return end
@@ -97,6 +92,7 @@ RegisterServerEvent('server:beginSentence',function(id, sentence, resume)
 		['@charid']   = playerId.charid,
 	}, function(rowsChanged)
 	end)
+
     TriggerClientEvent('ox_lib:notify', id, {
         title = 'Jailed',
         description = 'You have been sentenced to ' .. sentence .. ' minutes.',
@@ -105,11 +101,11 @@ RegisterServerEvent('server:beginSentence',function(id, sentence, resume)
     if not resume then
         exports.ox_inventory:ConfiscateInventory(id)
     end
+
 	TriggerClientEvent('sendToJail', id, sentence)
 end)
 
 RegisterServerEvent('updateSentence',function(sentence, target)
-
     local playerId = Ox.GetPlayer(target)
 
 	MySQL.update.await('UPDATE characters SET sentence = @sentence WHERE charid = @charid', {
@@ -118,6 +114,7 @@ RegisterServerEvent('updateSentence',function(sentence, target)
 	}, function(rowsChanged)
         Player(source).state:set('sentence', sentence, true)
 	end)
+
 	if sentence <= 0 then
 		if target ~= nil then
             SetEntityCoords(target, Config.unJailCoords.x, Config.unJailCoords.y, Config.unJailCoords.z)
@@ -129,12 +126,12 @@ RegisterServerEvent('updateSentence',function(sentence, target)
                 type = 'inform'
             })
 		end
+
 	end
+
 end)
 
-
 RegisterServerEvent("confirmation",function(fine, id, message)
-    local src = source -- lol
     local target = id
     TriggerClientEvent("sendConfirm", id, fine, src, message)
 end)
@@ -164,4 +161,22 @@ RegisterServerEvent("acceptedFine", function(fine, officer, message)
         type = 'success',
         description = 'Fine Accepted',
     })
+end)
+
+
+RegisterNetEvent('gsrTest', function(target)
+	local src = source
+	local ply = Player(target)
+	if ply.state.shot == true then
+        TriggerClientEvent('ox_lib:notify', src, {type = 'success', description = 'Test comes back POSITIVE (Has Shot)'})
+	else
+        TriggerClientEvent('ox_lib:notify', src, {type = 'error', description = 'Test comes back NEGATIVE (Has Not Shot)'})
+	end
+end)
+
+RegisterNetEvent('ox_inventory:updateWeapon', function(action)
+    if action ~= 'ammo' then return end
+    local lastShot = GetGameTimer()
+    Player(source).state:set('shot', true, true)
+    Player(source).state:set('lastShot', lastShot, true)
 end)

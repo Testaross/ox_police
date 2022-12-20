@@ -12,7 +12,7 @@ RegisterCommand('fine',function()
     for i = 1, #nearbyPlayers do
         local option = nearbyPlayers[i]
         option.id = GetPlayerServerId(option.id)
-        option.title = lib.callback('getname', option.id)
+        option.title = Player(option.id).state.name
         option.event = 'writeFine'
         option.args = {id = option.id, name = option.title}
         nearbyPlayers[i] = option

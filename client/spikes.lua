@@ -78,7 +78,6 @@ local function rollSpikes()
     for a = 1, 2 do
         local spike = CreateObject(joaat(spikemodel), spawnCoords.x, spawnCoords.y, spawnCoords.z, 1, 1, 1)
         local netid = NetworkGetNetworkIdFromEntity(spike)
-        SetNetworkIdExistsOnAllMachines(netid, true)
         SetNetworkIdCanMigrate(netid, false)
         SetEntityHeading(spike, GetEntityHeading(ped))
         PlaceObjectOnGroundProperly(spike)
