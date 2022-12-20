@@ -83,6 +83,9 @@ AddEventHandler('ox:playerLoaded', function(source, userid, charid)
 
 end)
 
+---@param id string
+---@param sentence string
+---@param resume boolean
 RegisterServerEvent('server:beginSentence',function(id, sentence, resume)
     if sentence == 0 then return end
     local playerId = Ox.GetPlayer(id)
@@ -105,6 +108,8 @@ RegisterServerEvent('server:beginSentence',function(id, sentence, resume)
 	TriggerClientEvent('sendToJail', id, sentence)
 end)
 
+---@param target string
+---@param sentence string
 RegisterServerEvent('updateSentence',function(sentence, target)
     local playerId = Ox.GetPlayer(target)
 
@@ -131,11 +136,15 @@ RegisterServerEvent('updateSentence',function(sentence, target)
 
 end)
 
+---@param fine string
+---@param id string
+---@param message string
 RegisterServerEvent("confirmation",function(fine, id, message)
     local target = id
     TriggerClientEvent("sendConfirm", id, fine, src, message)
 end)
 
+---@param officer string
 RegisterServerEvent("refusedFine", function(officer)
     local src = source
     TriggerClientEvent('ox_lib:notify', officer, {
@@ -148,6 +157,9 @@ RegisterServerEvent("refusedFine", function(officer)
     })
 end)
 
+---@param fine string
+---@param officer string
+---@param message string
 RegisterServerEvent("acceptedFine", function(fine, officer, message)
     local src = source 
     local officerName = Ox.GetPlayer(officer)
@@ -179,4 +191,7 @@ RegisterNetEvent('ox_inventory:updateWeapon', function(action)
     local lastShot = GetGameTimer()
     Player(source).state:set('shot', true, true)
     Player(source).state:set('lastShot', lastShot, true)
+    local playerId = Ox.GetPlayer(source)
+    local coords = GetEntityCoords(playerId.ped)
+    TriggerClientEvent('casingDrop',source, coords)
 end)

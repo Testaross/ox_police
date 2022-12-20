@@ -23,18 +23,30 @@ function radarCast()
 end 
 
 RegisterCommand('alpr', function()
+    print('hi')
     if not InService or playerState.invBusy then return end
     CreateThread(function()
-        while cache.vehicle do
+        while veh do
             Wait(500)
+            print("?")
             local entity = radarCast()
-            updateTextui(hit)
-            if not cache.vehicle then
+            updateTextui(entity)
+            if veh == false then
                 lib.hideTextUI()
+                print('break')
                 break
             end
         end
     end)
+end)
+
+lib.onCache('vehicle', function(value)
+    if value then
+        veh = true
+    else
+        veh = false
+        lib.hideTextUI()
+    end
 end)
 
 RegisterCommand('hidealpr', function()

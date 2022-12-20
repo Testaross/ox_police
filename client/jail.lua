@@ -1,6 +1,8 @@
 
 local playerState = LocalPlayer.state
 
+---@param time string
+---@param id string
 local function updateSentence(time, id)
     CreateThread(function()
         while Sentenced do
