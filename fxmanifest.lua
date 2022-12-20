@@ -21,4 +21,5 @@ client_scripts {
     'client/spikes.lua',
     'client/jail.lua',
     'client/fines.lua',
+    'client/gsr.lua',
 }
