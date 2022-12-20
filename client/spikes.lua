@@ -33,7 +33,7 @@ local function carcheck()
                 end
             end
         end
-        Wait(0)
+        Wait(100)
     end
 end
 
@@ -116,8 +116,10 @@ end)
 
 lib.onCache('vehicle', function(value)
     if value then
-        inVehicle = true
-        CreateThread(carcheck)
+        -- if Spawned == true then
+            inVehicle = true
+            CreateThread(carcheck)
+        -- end
     else
         inVehicle = false
     end

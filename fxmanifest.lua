@@ -1,7 +1,8 @@
 fx_version 'cerulean'
 game 'gta5'
-lua54 'yes'
 use_experimental_fxv2_oal 'yes'
+lua54 'yes'
+
 
 shared_script '@ox_lib/init.lua'
 shared_script 'config.lua'
@@ -22,4 +23,5 @@ client_scripts {
     'client/jail.lua',
     'client/fines.lua',
     'client/gsr.lua',
+    'client/alpr.lua',
 }
