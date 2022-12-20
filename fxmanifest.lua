@@ -10,6 +10,7 @@ server_scripts {
     '@oxmysql/lib/MySQL.lua',
     '@ox_core/imports/server.lua',
     'server/main.lua',
+    'config.lua'
 }
 
 client_scripts {
@@ -17,4 +18,7 @@ client_scripts {
     'client/main.lua',
     'client/cuff.lua',
     'client/escort.lua',
+    'client/spikes.lua',
+    'client/jail.lua',
+    'client/fines.lua',
 }

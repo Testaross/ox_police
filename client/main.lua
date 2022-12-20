@@ -4,6 +4,11 @@ InService = player?.inService and table.contains(Config.PoliceGroups, player.inS
 RegisterCommand('duty', function()
     InService = not InService and player.hasGroup(Config.PoliceGroups) or false
     TriggerServerEvent('ox:setPlayerInService', InService)
+    print(InService)
+    -- lib.notify({
+    --     description = InService,
+    --     type = 'error'
+    -- })
 end)
 
 AddEventHandler('ox:playerLogout', function()
