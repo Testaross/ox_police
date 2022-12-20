@@ -3,33 +3,6 @@ local playerId = cache.playerId
 local bullets = {}
 local timer = GetGameTimer()
 
-AddEventHandler('gameEventTriggered', function (name, args)
-	if name == 'CEventNetworkEntityDamage' then
-        local lastshot = LocalPlayer.state.lastShot or 0 
-		if timer - lastshot > 500 then
-			local victim = args[1]
-            local coords = GetEntityCoords(playerPed)
-			if victim == playerPed then
-				local ground, impactZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z, 1)
-				coords = vector3(coords.x, coords.y, (impactZ + 0.0))
-				exports.ox_target:addSphereZone({
-                    coords = coords,
-                    radius = 0.5,
-                    options = {
-                        {
-                            name = 'evidence',
-                            icon = 'fa-solid fa-gun',
-                            label = 'Pick up blood',
-                            canInteract = function(entity, distance, coords, name)
-                                return true
-                            end
-                        }
-                    }
-                })
-			end
-		end
-	end
-end)
 
 
 
