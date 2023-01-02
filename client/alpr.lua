@@ -27,13 +27,15 @@ RegisterCommand('alpr', function()
     if not InService or playerState.invBusy then return end
     CreateThread(function()
         while veh do
-            Wait(500)
-            print("?")
-            local entity = radarCast()
-            updateTextui(entity)
-            if veh == false then
-                lib.hideTextUI()
-                print('break')
+            if Radar then
+                Wait(500)
+                local entity = radarCast()
+                updateTextui(entity)
+                if veh == false then
+                    lib.hideTextUI()
+                    break
+                end
+            else
                 break
             end
         end
@@ -43,7 +45,9 @@ end)
 lib.onCache('vehicle', function(value)
     if value then
         veh = true
+        Radar = true
     else
+        Radar = false
         veh = false
         lib.hideTextUI()
     end
