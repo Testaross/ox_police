@@ -23,7 +23,6 @@ function radarCast()
 end 
 
 RegisterCommand('alpr', function()
-    print('hi')
     if not InService or playerState.invBusy then return end
     CreateThread(function()
         while veh do
