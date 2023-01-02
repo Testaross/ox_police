@@ -27,7 +27,7 @@ RegisterCommand('alpr', function()
     if not InService or playerState.invBusy then return end
     CreateThread(function()
         while veh do
-            if Radar then
+            if Radar and InService then
                 Wait(500)
                 local entity = radarCast()
                 updateTextui(entity)
@@ -36,6 +36,7 @@ RegisterCommand('alpr', function()
                     break
                 end
             else
+                lib.hideTextUI()
                 break
             end
         end
