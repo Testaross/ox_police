@@ -63,7 +63,11 @@ local function setEscorted(serverId)
     local dict = 'anim@move_m@prisoner_cuffed'
     local dict2 = 'anim@move_m@trash'
 
-    while isEscorted do
+    while true do
+        if not isEscorted then
+            break
+        end
+        
         local player = GetPlayerFromServerId(serverId)
         local ped = player > 0 and GetPlayerPed(player)
 
