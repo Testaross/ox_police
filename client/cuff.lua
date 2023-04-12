@@ -81,8 +81,12 @@ local DisableControlAction = DisableControlAction
 
 local function whileCuffed()
     local dict = 'mp_arresting'
+    
+    while true do
+        if not isCuffed then
+            break
+        end
 
-    while isCuffed do
         if not IsEntityPlayingAnim(cache.ped, dict, 'idle', 3) then
             lib.requestAnimDict(dict)
             TaskPlayAnim(cache.ped, dict, 'idle', 8.0, -8, -1, 49, 0.0, false, false, false)
